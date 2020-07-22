@@ -1,0 +1,36 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: assignment-deploy
+spec:
+  selector:
+    matchLabels:
+      app: assignment
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: assignment
+    spec:
+      containers:
+      - name: assignment-container
+        image: docker-helloworld/hello-world:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+
+---
+ 
+kind: Service 
+apiVersion: v1 
+metadata: 
+  name: assignment-service
+spec: 
+  selector: 
+    app: assignment
+  ports: 
+  - protocol: TCP 
+    port: 81 
+    targetPort: 80 
+    nodePort: 31000 
+  type: NodePort 
